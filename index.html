@@ -1,0 +1,94 @@
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.7.2.min.js"></script>
+<script src="http://code.jquery.com/ui/1.8.21/jquery-ui.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
+
+<div class="parent-slider">
+  <div class="slider-title">
+    <h3 class="text-slider-title">
+    How much can you save each month with Virtually Open?
+    </h3>
+  </div>
+  <div class="slider-main side-main">
+    <div class="side-1 side">
+      <div class="scoller-1">
+         <h3 class="text-info-title">What is your average monthly revenue?</h3>
+        <div>
+        	<input type="text" class="display-input" id="avg-revenue-text" readonly >
+      	</div>
+      	<div id="avg-revenue-slider-range"></div>
+      </div>
+      <div class="scoller-2">
+         <h3 class="text-info-title">Current Commission rate (defaults to average competitor rate)?</h3>
+        <div>
+        	<input type="text" class="display-input" id="comm-rate-text" readonly>
+      	</div>
+      	<div id="comm-rate-slider-range"></div>
+      </div> 
+    </div>
+    <div class="side-2 side">
+      <h3 class="display-input text-total" id="text-display-total">Total Saving</h3>
+    </div>
+  </div>
+</div>
+
+<script>
+$( function() {
+  var $avgRevenue = 100;
+  var $comRate = 14;
+  var $displayOutput = 0;
+  $("#avg-revenue-slider-range").slider({
+    range: "max",
+    min: 10,
+    max: 8000,
+    value: 600,
+    slide: function( event, ui ) {
+      $avgRevenue = ui.value;
+      $(this).parents(".scoller-1").find("#avg-revenue-text" ).val("£" + $avgRevenue );
+      resultValidate($avgRevenue, $comRate );
+    }
+  });
+  $avgRevenue = $( "#avg-revenue-slider-range" ).slider( "value" );
+  $("#avg-revenue-text" ).val( "£" + $avgRevenue );
+  $("#comm-rate-slider-range").slider({
+    range: "max",
+    min: 2,
+    max: 100,
+    value: 14,
+    slide: function( event, ui ) {
+      $comRate = ui.value;
+      $(this).parents(".scoller-2").find("#comm-rate-text" ).val( $comRate + "%" );
+      resultValidate($avgRevenue, $comRate );
+    }
+  });
+  $comRate = $( "#comm-rate-slider-range" ).slider( "value" );
+  $( "#comm-rate-text" ).val( $comRate + "%" );
+  
+  resultValidate($avgRevenue, $comRate );
+  
+});
+  
+  
+  function resultValidate($avgRevenue, $comRate ){
+    
+   var $displayNum = parseFloat($avgRevenue * $comRate / 100) - 60;
+    
+    if($displayNum > 0){
+    	$("#text-display-total" ).multiline( "£" + $displayNum.toFixed(2) + "span\nTotal Saving\span" );
+    }else{
+    	$("#text-display-total" ).multiline( "£0span\nTotal Saving\span" );
+    }
+  }  
+  
+  $.fn.multiline = function(text){
+    this.text(text);
+    this.html(this.html().replace(/\n/g,'<br/>'));
+    this.html(this.html().replace(/\span/g,'</span>'));
+    this.html(this.html().replace(/span/g,'<span class="price-text">'));
+    return this;
+  }
+</script>
