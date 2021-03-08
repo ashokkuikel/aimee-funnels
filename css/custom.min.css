@@ -48,17 +48,16 @@
     	height: 100px;
     }
   }
-  @media(min-width: 480px){
-    .side-main{
-      display: flex;
-      flex-direction: column;
-    }
-    .side-main .side-1{ order: 2; }
-    .side-main .side-2{ order: 1; }
-    .side-main .side{
-      display: block !important;
-      width: 90% !important;
-      margin-left: auto;
-      margin-right: auto;
-    }
+  .side-main{
+    display: flex;
+    flex-direction: column;
   }
+  .side-main .side-1{ order: 2; }
+  .side-main .side-2{ order: 1; }
+  .side-main .side{
+    display: block !important;
+    width: 90% !important;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
